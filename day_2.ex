@@ -1,6 +1,7 @@
 defmodule DayTwo do
   @moduledoc """
-  Day 2 solution: wrapping paper calculations for cuboid gifts.
+  Advent of Code 2015 - Day 2:
+  Wrapping paper and ribbon calculation for cuboid presents.
   """
 
   @doc """
@@ -23,25 +24,38 @@ defmodule DayTwo do
   end
 
   @doc """
-  Calculate cuboid face areas.
+  Calculates the wrapping paper needed for a present.
   """
-  def calc_cuboid_faces([l, w, h]) when is_integer(l) and is_integer(w) and is_integer(h) do
-    [l * w, w * h, h * l]
+  def calc_paper_amount([l, w, h]) do
+    sides = [l * w, w * h, h * l]
+    Enum.sum(sides) * 2 + Enum.min(sides)
   end
 
   @doc """
-  Calculate total wrapping paper needed for a cuboid.
-  Includes surface area and area of smallest face.
+  Calculates the ribbon needed for a present.
   """
-  def calc_paper_amount([x, y, z] = faces), do: 2 * x + 2 * y + 2 * z + Enum.min(faces)
+  def calc_ribbon_length([l, w, h] = dimensions) do
+    [x, y | _] = Enum.sort(dimensions)
+    perimeter = 2 * (x + y)
+    volume = l * w * h
+    perimeter + volume
+  end
 
   @doc """
-  Solves task one: sums total paper required for all presents.
+  Part 1: Total square feet of wrapping paper needed.
   """
   def task_one do
     get_task_data()
-    |> Enum.map(&calc_cuboid_faces/1)
     |> Enum.map(&calc_paper_amount/1)
+    |> Enum.sum()
+  end
+
+  @doc """
+  Part 2: Total feet of ribbon needed.
+  """
+  def task_two do
+    get_task_data()
+    |> Enum.map(&calc_ribbon_length/1)
     |> Enum.sum()
   end
 end
