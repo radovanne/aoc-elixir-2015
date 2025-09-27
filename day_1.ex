@@ -9,13 +9,12 @@ defmodule DayOne do
   """
   def get_task_data(), do: File.read!("./input_1.txt") |> String.graphemes()
 
-  def calc_floor([], acc), do: acc
-  def calc_floor(["(" | tail], acc), do: calc_floor(tail, acc + 1)
-
   @doc """
   Recursively calculates the floor level from instructions.
   '(' increases floor, ')' decreases floor.
   """
+  def calc_floor([], acc), do: acc
+  def calc_floor(["(" | tail], acc), do: calc_floor(tail, acc + 1)
   def calc_floor([")" | tail], acc), do: calc_floor(tail, acc - 1)
 
   @doc """
@@ -25,6 +24,11 @@ defmodule DayOne do
     calc_floor(get_task_data(), 0)
   end
 
+  @doc """
+  Recursively finds position where floor reaches -1.
+  '(' increases floor, ')' decreases floor.
+  Raises error if basement is never reached.
+  """
   def find_basement_position(_, -1, pos), do: pos
 
   def find_basement_position(["(" | tail], acc, pos),
@@ -33,11 +37,6 @@ defmodule DayOne do
   def find_basement_position([")" | tail], acc, pos),
     do: find_basement_position(tail, acc - 1, pos + 1)
 
-  @doc """
-  Recursively finds position where floor reaches -1.
-  '(' increases floor, ')' decreases floor.
-  Raises error if basement is never reached.
-  """
   def find_basement_position(_, _acc, _pos), do: raise("Basement never reached!")
 
   @doc """
