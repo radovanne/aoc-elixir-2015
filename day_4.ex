@@ -6,22 +6,26 @@ defmodule DayFour do
   # This changes 
   @task_data "iwrupvqb"
 
-  def check_md5_hash(s, suffix) do
+  def check_md5_hash(s, suffix, required_start) do
     hash = :crypto.hash(:md5, s <> Integer.to_string(suffix)) |> Base.encode16(case: :lower)
 
-    if hash |> String.starts_with?("00000") do
+    if hash |> String.starts_with?(required_start) do
       suffix
     else
-      check_md5_hash(s, suffix + 1)
+      check_md5_hash(s, suffix + 1, required_start)
     end
   end
 
-  def get_md5_suffix(s, suffix) do
-    check_md5_hash(s, suffix)
+  def get_md5_suffix(s, suffix, required_start \\ "00000") do
+    check_md5_hash(s, suffix, required_start)
   end
 
   def task_one do
     get_md5_suffix(@task_data, 1)
+  end
+
+  def task_two do
+    get_md5_suffix(@task_data, 1, "000000")
   end
 end
 
@@ -50,5 +54,9 @@ defmodule DayFourStream do
 
   def task_one do
     find_advent_coin(@task_data)
+  end
+
+  def task_two do
+    find_advent_coin(@task_data, "000000")
   end
 end
