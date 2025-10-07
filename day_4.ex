@@ -4,7 +4,7 @@ defmodule DayFour do
   """
 
   # This changes 
-  @task_data "iwrupvqb"
+  @task_data "bgvyzdsv"
 
   def check_md5_hash(s, suffix, required_start) do
     hash = :crypto.hash(:md5, s <> Integer.to_string(suffix)) |> Base.encode16(case: :lower)
@@ -35,7 +35,7 @@ defmodule DayFourStream do
   """
 
   # This changes 
-  @task_data "iwrupvqb"
+  @task_data "bgvyzdsv"
 
   defp find_advent_coin(prefix, required_start \\ "00000") do
     Stream.iterate(1, &(&1 + 1))
